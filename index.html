@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Management Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Project Task Dashboard</h1>
+    <a href="{{ url_for('add_task') }}">Add New Task</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Assignee</th>
+                <th>Deadline</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task['title'] }}</td>
+                <td>{{ task['description'] }}</td>
+                <td>{{ task['status'] }}</td>
+                <td>{{ task['assignee'] }}</td>
+                <td>{{ task['deadline'] }}</td>
+                <td>
+                    {% if task['status'] != 'Completed' %}
+                    <form action="{{ url_for('complete_task', id=task['id']) }}" method="post">
+                        <button type="submit">Mark as Completed</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
